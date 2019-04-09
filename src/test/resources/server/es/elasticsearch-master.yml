@@ -1,0 +1,12 @@
+cluster.name: my-application
+node.name: node-1
+node.master: true
+node.data: true
+bootstrap.memory_lock: false
+bootstrap.system_call_filter: false
+network.host: 47.93.30.182
+network.bind_host: 0
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+discovery.zen.ping.unicast.hosts: ["47.93.30.182","47.92.166.52"]
+path.repo: ['/data/es/backup']

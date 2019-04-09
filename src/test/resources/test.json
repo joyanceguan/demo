@@ -1,0 +1,27 @@
+{
+  "imageSize":"100_200",
+  "traceId": "",
+  "channel": "tcwxor_travelasist",
+  "entrance":1,
+  "hotelsLimit": 2,
+  "ticket": {
+    "uuid": "test",
+    "type": "TRAIN",
+    "code": "G16",
+    "price": 553,
+    "discount": 1,
+    "bookTime": "2018-01-05 16:27:00",
+    "arrival": "北京南站",
+    "arrivalCode": "VNP",
+    "arrivalTime": "2018-01-06 15:55:00",
+    "departure": "上海虹桥站",
+    "departureCode": "AOH",
+    "departureTime": "2018-01-06 11:00:00"
+  },
+  "passenger": {
+    "openId": "12345",
+    "residence": [
+      "杭州"
+    ]
+  }
+}

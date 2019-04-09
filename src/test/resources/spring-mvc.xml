@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+                        http://www.springframework.org/schema/aop 
+                        http://www.springframework.org/schema/aop/spring-aop.xsd      
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+	<context:component-scan base-package="com.joyance.demo" />
+	<!-- 默认的注解映射的支持 -->  
+    <mvc:annotation-driven />
+    
+     <!-- 引入配置文件 -->  
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+        <property name="locations">  
+            <list>  
+               <value>classpath:config.properties</value>
+            </list>   
+        </property>    
+    </bean>  
+    
+    <!-- elasticsearch配置 -->
+    <bean id="esTransportClient" class="com.joyance.demo.elasticsearch.ESTransportClient">
+        <property name="clusterNodes" value="${clusterNodes}" />
+        <property name="clusterName" value="${clusterName}" />
+        <property name="clientPingTimeout" value="${clientPingTimeout}" />
+        <property name="clientNodesSamplerInterval" value="${clientNodesSamplerInterval}" />
+    </bean>
+	
+	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<mvc:annotation-driven>  
+      <mvc:message-converters>  
+          <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+              <property name="supportedMediaTypes">  
+                  <list>  
+                      <value>text/html;charset=UTF-8</value>  
+                      <value>application/json;charset=UTF-8</value>  
+                      <value>*/*;charset=UTF-8</value>  
+                  </list>  
+              </property>  
+          </bean>  
+      </mvc:message-converters>  
+    </mvc:annotation-driven>  
+	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />	<!-- JSON转换器 -->
+			</list>
+		</property>
+	</bean>
+    
+    <!-- freemaker配置 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+        <property name="cache" value="false" />  
+        <property name="prefix" value="" />  
+        <property name="suffix" value=".ftl" />  
+        <property name="contentType" value="text/html;charset=UTF-8"></property>  
+        <property name="requestContextAttribute" value="request" />  
+        <property name="exposeSpringMacroHelpers" value="true" />  
+        <property name="exposeRequestAttributes" value="true" />  
+        <property name="exposeSessionAttributes" value="true" />  
+    </bean>
+    
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="default_encoding">UTF-8</prop>
+				<prop key="number_format">0.##########</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="classic_compatible">true</prop>
+				<prop key="template_exception_handler">ignore</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 共享session配置 -->
+    <bean id="redisHttpSessionConfiguration"
+           class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="600"/>
+    </bean>
+    <!-- 共享session配置 -->
+    
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="10000" />
+        <property name="maxIdle" value="10" />
+    </bean>
+    
+    <bean id="jedisConnectionFactory"
+           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+        <property name="hostName" value="${redis.hostname}"/>
+        <property name="port" value="${redis.port}"/>  
+        <property name="timeout" value="${redis.timeout}"/>
+        <property name="usePool" value="true"/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+    
+    <!-- redis config start -->
+    <!-- 配置RedisTemplate -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+    </bean>
+
+    <!-- 配置RedisCacheManager -->
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg name="redisOperations" ref="redisTemplate" />
+    </bean>
+
+    <!-- redis config end -->
+    
+    <!-- aop配置 -->
+    <context:annotation-config />
+	<aop:aspectj-autoproxy />
+</beans>
