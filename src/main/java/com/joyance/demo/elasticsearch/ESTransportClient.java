@@ -130,14 +130,6 @@ public class ESTransportClient implements FactoryBean<TransportClient>, Initiali
         this.properties = properties;
     }
     
-    public TransportClient getClient(){
-    	try {
-			return getObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return null;
-    }
     
     public void refreshIndex(String index){
     	RefreshRequestBuilder bu=client.admin().indices().prepareRefresh(index);

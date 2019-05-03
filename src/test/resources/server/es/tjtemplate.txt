@@ -1,0 +1,511 @@
+{
+  "mappings" : {
+    "timing" : {
+      "properties" : {
+        "p88" : {
+          "type" : "long"
+        },
+        "p94" : {
+          "type" : "long"
+        },
+        "p97" : {
+          "type" : "long"
+        },
+        "p92" : {
+          "type" : "long"
+        },
+        "p89" : {
+          "type" : "long"
+        },
+        "p90" : {
+          "type" : "long"
+        },
+        "p95" : {
+          "type" : "long"
+        },
+        "p98" : {
+          "type" : "long"
+        },
+        "p93" : {
+          "type" : "long"
+        },
+        "p96" : {
+          "type" : "long"
+        },
+        "p91" : {
+          "type" : "long"
+        },
+        "p80" : {
+          "type" : "long"
+        },
+        "p99" : {
+          "type" : "long"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "p77" : {
+          "type" : "long"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "base" : {
+      "properties" : {
+        "sys_sw" : {
+          "type" : "float"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "sys_ww" : {
+          "type" : "float"
+        },
+        "sys_wh" : {
+          "type" : "float"
+        },
+        "tc" : {
+          "type" : "integer"
+        },
+        "sys_sh" : {
+          "type" : "float"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "logs" : {
+      "properties" : {
+        "consum" : {
+          "type" : "long"
+        },
+        "bst" : {
+          "type" : "long"
+        },
+        "loc_ver" : {
+          "type" : "float"
+        },
+        "loc_hor" : {
+          "type" : "float"
+        },
+        "loc_geo" : {
+          "type" : "geo_point"
+        },
+        "tc" : {
+          "type" : "integer"
+        },
+        "bit" : {
+          "type" : "long"
+        },
+        "loc_acc" : {
+          "type" : "float"
+        },
+        "plt" : {
+          "type" : "long"
+        },
+        "scr_bri" : {
+          "type" : "float"
+        },
+        "loc_spe" : {
+          "type" : "float"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "loc_alt" : {
+          "type" : "float"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "behavior" : {
+      "properties" : {
+        "tg_ol" : {
+          "type" : "float"
+        },
+        "tc_cx" : {
+          "type" : "float"
+        },
+        "tc_py" : {
+          "type" : "float"
+        },
+        "dt_x" : {
+          "type" : "float"
+        },
+        "tc" : {
+          "type" : "integer"
+        },
+        "size" : {
+          "type" : "integer"
+        },
+        "tg_ot" : {
+          "type" : "float"
+        },
+        "tc_cy" : {
+          "type" : "float"
+        },
+        "tc_px" : {
+          "type" : "float"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "dt_y" : {
+          "type" : "float"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "firstData" : {
+      "properties" : {
+        "ajaxTotalSize" : {
+          "type" : "long"
+        },
+        "bttest" : {
+          "type" : "long"
+        },
+        "p98" : {
+          "type" : "long"
+        },
+        "endTime" : {
+          "type" : "long"
+        },
+        "checkoutdate" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "ajaxTotalTime" : {
+          "type" : "long"
+        },
+        "checkindate" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "backend" : {
+      "properties" : {
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "jserror" : {
+      "properties" : {
+        "p97" : {
+          "type" : "long"
+        },
+        "position" : {
+          "type" : "string",
+          "index" : "not_analyzed",
+          "ignore_above" : 256
+        },
+        "checkindate" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd"
+        },
+        "p80" : {
+          "type" : "long"
+        },
+        "p89" : {
+          "type" : "long"
+        },
+        "p93" : {
+          "type" : "long"
+        },
+        "p98" : {
+          "type" : "long"
+        },
+        "checkoutdate" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd"
+        },
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "p94" : {
+          "type" : "long"
+        },
+        "p99" : {
+          "type" : "long"
+        },
+        "p90" : {
+          "type" : "long"
+        },
+        "filename" : {
+          "type" : "string",
+          "index" : "not_analyzed",
+          "ignore_above" : 256
+        },
+        "countError" : {
+          "type" : "long"
+        },
+        "p95" : {
+          "type" : "long"
+        },
+        "message" : {
+          "type" : "string",
+          "index" : "not_analyzed",
+          "ignore_above" : 256
+        },
+        "p91" : {
+          "type" : "long"
+        },
+        "stack" : {
+          "type" : "string",
+          "index" : "not_analyzed",
+          "ignore_above" : 800
+        },
+        "p88" : {
+          "type" : "long"
+        },
+        "p96" : {
+          "type" : "long"
+        },
+        "errorTime" : {
+          "type" : "long"
+        },
+        "p92" : {
+          "type" : "long"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "diy" : {
+      "properties" : {
+        "key" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    },
+    "_default_" : {
+      "properties" : {
+        "logTime" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss.SSS"
+        }
+      },
+      "_all" : {
+        "enabled" : false
+      },
+      "dynamic_templates" : [
+        {
+          "strings" : {
+            "mapping" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "match_mapping_type" : "string"
+          }
+        }
+      ]
+    }
+  },
+  "order" : 0,
+  "settings" : {
+    "index" : {
+      "routing" : {
+        "allocation" : {
+          "total_shards_per_node" : "4"
+        }
+      },
+      "refresh_interval" : "20s",
+      "search" : {
+        "slowlog" : {
+          "level" : "warn",
+          "threshold" : {
+            "query" : {
+              "debug" : "1s",
+              "warn" : "10s"
+            }
+          }
+        }
+      },
+      "number_of_replicas" : "0",
+      "number_of_shards" : "4"
+    }
+  },
+  "template" : "hotelfx-*"
+}

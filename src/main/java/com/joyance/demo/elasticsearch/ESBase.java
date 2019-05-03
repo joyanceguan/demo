@@ -2,10 +2,11 @@ package com.joyance.demo.elasticsearch;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
+
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -14,15 +15,14 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 
 @Service
 public class ESBase {
 
-	@Autowired
-	ESTransportClient transportClient;
+	@Resource(name="esTransportClient")
+	TransportClient client;
 	
 	String index = "my-index";
 	String type = "my-type";
@@ -81,7 +81,6 @@ public class ESBase {
 		if(t == null){
 			return null;
 		}
-		TransportClient client=transportClient.getClient();
 		IndexRequestBuilder indexRequestBuilder =client.prepareIndex(index, type);
 		IndexResponse response = indexRequestBuilder.setSource(JSON.toJSONString(t)).execute().actionGet();
 		return response.getId();
@@ -91,7 +90,6 @@ public class ESBase {
 	 * 删除
 	 */
 	public String deleteById(String id) {
-		TransportClient client=transportClient.getClient();
 		DeleteResponse response=client.prepareDelete(index, type, id).execute().actionGet();
 		return response.getId();
 	}
@@ -101,7 +99,6 @@ public class ESBase {
 	 */
 	@SuppressWarnings("deprecation")
 	public <T> int update(T t,String id) throws Exception {
-		 TransportClient client=transportClient.getClient();
 		 UpdateRequest updateRequest = new UpdateRequest(index, type,id);
 		 updateRequest.doc(JSON.toJSONString(t));
 		 client.update(updateRequest).get();

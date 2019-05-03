@@ -2,11 +2,13 @@ package com.joyance.demo.elasticsearch;
 
 import java.util.Date;
 
+import com.joyance.demo.utils.DateUtils;
+
 public class Person {
 
 	private int id;
 	private String name;
-	private Date ctime;
+	private Date create_time;
 	private int age;
 	
 	public int getId() {
@@ -21,17 +23,20 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCtime() {
-		return ctime;
-	}
-	public void setCtime(Date ctime) {
-		this.ctime = ctime;
-	}
 	public int getAge() {
 		return age;
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+	public String getCreate_time() {
+		String time = null;
+		if(create_time != null)
+		    time = DateUtils.parseStringFromDate(create_time, "yyyy-MM-dd HH:mm:ss.SSS");
+		return time;
+	}
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
 	}
 	
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyance.demo.mybatis.mapper.CopyConfigMapper">
+  
+  	<insert id="save" parameterType="configCopy" keyProperty="id" useGeneratedKeys="true">
+	       insert into config_copy
+	       (
+               c_desc,
+               c_key,
+               c_value,
+               index_key,
+               create_time,
+               update_time
+	       )
+	       values
+	       (
+               #{c_desc},
+               #{c_key},
+               #{c_value},
+               #{index_key},
+               now(),
+               now()
+	       )
+	</insert>
+	
+	<insert id="batchSave" useGeneratedKeys="true" parameterType="java.util.List">
+    insert into config_copy
+	       (
+               c_desc,
+               c_key,
+               c_value,
+               index_key,
+               create_time,
+               update_time
+	       )
+	 values 
+    <foreach collection="list" item="item" index="index" separator=",">
+          (
+               #{item.c_desc},
+               #{item.c_key},
+               #{item.c_value},
+               #{item.index_key},
+               #{item.create_time},
+               #{item.update_time}
+          ) 
+    </foreach> 
+  </insert>
+	
+	<select id="selectById" resultType="configCopy">
+	      select id,c_desc,c_key,c_value,index_key,create_time,update_time from config_copy where id=#{id}
+	</select>
+	
+</mapper>

@@ -18,10 +18,10 @@ public class EsTest {
 	@Test
 	public void testSave(){
 		Person p = new Person();
-		p.setId(12);
-		p.setName("joyance");
-		p.setAge(28);
-		p.setCtime(new Date());
+		p.setId(18);
+		p.setName("my name is joy.guan");
+		p.setAge(25);
+		p.setCreate_time(new Date());
 		String id = esBase.insert("helloworld_index2", "helloworld_type2", p);
 		System.out.println(id);
 	}

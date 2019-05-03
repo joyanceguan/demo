@@ -1,0 +1,28 @@
+//修改
+curl 47.93.30.182:9200/helloworld_index2/helloworld_type2/AWpziSMFClNBEAib4UDO/_update -d '
+{
+  "doc": {
+    "age": 29,
+    "name": "joy",
+    "id": 11
+  }
+}'
+
+
+curl 47.93.30.182:9200/helloworld_index2/helloworld_type2/_search -d '
+{
+  "query": {
+     "term":{
+         "name":"my"
+     }
+  }
+}'
+
+curl 47.93.30.182:9200/helloworld_index2/helloworld_type2/_search -d '
+{
+  "query": {
+     "match":{
+         "name":"my name is joy.guan"
+     }
+  }
+}'
