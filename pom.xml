@@ -339,5 +339,12 @@
             <version>2.8.1</version>
         </dependency> -->
         <!-- hadoop end-->
+        <!-- md5 begin -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+        <!-- md5 end -->
 	</dependencies>
 </project>
