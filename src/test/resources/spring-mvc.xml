@@ -17,11 +17,12 @@
 	<!-- 默认的注解映射的支持 -->  
     <mvc:annotation-driven />
     
-     <!-- 引入配置文件 -->  
+    <!-- 引入配置文件 -->  
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
         <property name="locations">  
             <list>  
                <value>classpath:config.properties</value>
+               <value>classpath:mongo.properties</value>
             </list>   
         </property>    
     </bean>  
@@ -90,18 +91,22 @@
 		</property>
 	</bean>
 	
-	<!-- 共享session配置 -->
+	  <!-- 拦截器 -->
+    <mvc:interceptors>  
+      <bean class="com.joyance.demo.interceptors.BaseInterceptor"/> 
+    </mvc:interceptors>  
+	
+	<!-- 共享session配置 begin-->
     <bean id="redisHttpSessionConfiguration"
            class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
         <property name="maxInactiveIntervalInSeconds" value="600"/>
     </bean>
-    <!-- 共享session配置 -->
-    
+     
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxTotal" value="10000" />
         <property name="maxIdle" value="10" />
     </bean>
-    
+
     <bean id="jedisConnectionFactory"
            class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
         <property name="hostName" value="${redis.hostname}"/>
@@ -110,6 +115,7 @@
         <property name="usePool" value="true"/>
         <property name="poolConfig" ref="jedisPoolConfig"/>
     </bean>
+    <!-- 共享session配置 end-->
     
     <!-- redis config start -->
     <!-- 配置RedisTemplate -->
@@ -121,10 +127,30 @@
     <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
         <constructor-arg name="redisOperations" ref="redisTemplate" />
     </bean>
-
     <!-- redis config end -->
     
-    <!-- aop配置 -->
+    
+    <import resource="spring-data.xml" />
+    <import resource="spring-mongo.xml" />
+    <!-- 未认证或未授权时跳转必须在springmvc里面配，spring-shiro里的shirofilter配不生效 -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!--表示捕获的异常 -->
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    <!--捕获该异常时跳转的路径 -->
+                    /403
+                </prop>
+                <!--表示捕获的异常 -->
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    <!--捕获该异常时跳转的路径 -->
+                    /403
+                </prop>
+            </props>
+        </property>
+    </bean>
+    
+     <!-- aop配置 -->
     <context:annotation-config />
 	<aop:aspectj-autoproxy />
 </beans>
