@@ -30,6 +30,14 @@ public class CollectTest {
 	     }
 	     
 	     list.forEach(s -> System.out.println(JSON.toJSONString(s)));
+	     
+	     
+	     
+	     
+	     Map<String, List<Student>> result5 =  list.stream().collect(Collectors.groupingBy(Student::getClasz,Collectors.toList()));
+	     System.out.println(JSON.toJSONString(result5));
+	     
+	     
 	}
 	
 }

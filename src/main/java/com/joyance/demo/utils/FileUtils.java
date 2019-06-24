@@ -33,7 +33,7 @@ public class FileUtils {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String result = FileUtils.readFile("/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test.json");
+		String result = FileUtils.readFile("/Users/joyance/Documents/x.txt");
 	    System.out.println(result);
 //		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
 	}
