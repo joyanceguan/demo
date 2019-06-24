@@ -22,6 +22,7 @@
         <property name="locations">  
             <list>  
                <value>classpath:config.properties</value>
+               <value>classpath:mongo.properties</value>
             </list>   
         </property>    
     </bean>  
@@ -132,6 +133,7 @@
     
     <import resource="spring-shiro.xml" />
     <import resource="spring-data.xml" />
+    <import resource="spring-mongo.xml" />
     <!-- 未认证或未授权时跳转必须在springmvc里面配，spring-shiro里的shirofilter配不生效 -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
