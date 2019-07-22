@@ -85,15 +85,15 @@ public class DateUtils {
 		return addTime(date,Calendar.SECOND,seconds);
 	}
 	
-	public static Integer daysBetween(Date start, Date end) {
-		if(start!=null && end!=null){
-			Date startDate=parseDay(start);
-			Date endDate=parseDay(end);
-			int days = (int)((endDate.getTime() - startDate.getTime())/86400000);
-			return days;
-		}
-		return null;
-	}
+//	public static Integer daysBetween(Date start, Date end) {
+//		if(start!=null && end!=null){
+//			Date startDate=parseDay(start);
+//			Date endDate=parseDay(end);
+//			int days = (int)((endDate.getTime() - startDate.getTime())/86400000);
+//			return days;
+//		}
+//		return null;
+//	}
 	
 	public static Date parseDay(Date date){
 		if(date!=null){
@@ -101,6 +101,54 @@ public class DateUtils {
 		}
 		return null;
 	}
+	
+	//计算两个日期之间相差的天数
+    public static int daysBetween(Date startDate, Date endDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            startDate = sdf.parse(sdf.format(startDate));
+            endDate = sdf.parse(sdf.format(endDate));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate);
+            long time1 = cal.getTimeInMillis();
+            cal.setTime(endDate);
+            long time2 = cal.getTimeInMillis();
+            long between_days = (time2 - time1) / (1000 * 3600 * 24);
+            return Integer.parseInt(String.valueOf(between_days));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * 获取指定日期的零点
+     * @param date 指定日期
+     * @return 指定日期的零点
+     */
+    public static Date getDateZeroPointTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
+    }
+
+
+    /**
+     * 获取指定日期的23点59分59秒
+     * @param date 指定日期
+     * @return 指定日期的23点59分59秒
+     */
+    public static Date getDate24PointTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        return calendar.getTime();
+    }
 	
 	public static void main(String[] args) {
 		System.out.println(DateUtils.parseStringFromDate(new Date()));

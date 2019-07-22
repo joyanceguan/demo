@@ -8,6 +8,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class FileUtils {
+	
+	/**
+     * 如果目录不存在则创建目录
+     * @param dir
+	 * @throws Exception 
+     */
+    public static void createDirWhenNotExists(String dir) throws Exception{
+        File file =new File(dir);
+        if (!file.isDirectory()) {
+            boolean mkdir = file.mkdirs();
+            if (!mkdir){
+                throw new Exception("目录创建失败");
+            }
+        }
+    }
+
 
 	public static String readFile(String path) throws Exception{
 		String result = "";
@@ -16,7 +32,7 @@ public class FileUtils {
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			result+=line;
+			result+="\""+line+"\",\n";
 		}
 		bufferedReader.close();
 		inputStreamReader.close();
@@ -34,7 +50,8 @@ public class FileUtils {
 	
 	public static void main(String[] args) throws Exception {
 		String result = FileUtils.readFile("/Users/joyance/Documents/x.txt");
-	    System.out.println(result);
+//	    System.out.println(result);
+		FileUtils.writeFile(result, "/Users/joyance/Documents/y.txt");
 //		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
 	}
 }
