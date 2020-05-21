@@ -6,8 +6,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FileUtils {
+public class FileUtils2 {
 	
 	/**
      * 如果目录不存在则创建目录
@@ -40,19 +42,19 @@ public class FileUtils {
 //		return result;
 //	}
 	
-	public static String readFile(String path) throws Exception{
-		String result = "";
+	public static List<String> readFile(String path) throws Exception{
+		List<String> orderList = new ArrayList<String>();
 		FileInputStream fileInputStream = new FileInputStream(path);
 		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			result += "\""+line+"\",\n";
+			orderList.add(line);
 		}
 		bufferedReader.close();
 		inputStreamReader.close();
 		fileInputStream.close();
-		return result;
+		return orderList;
 	}
 	
 	public static void writeFile(String content,String path) throws IOException{
@@ -64,9 +66,15 @@ public class FileUtils {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String result = FileUtils.readFile("/Users/joyance/Documents/y.txt");
-		FileUtils.writeFile(result, "/Users/joyance/Documents/x.txt");
-		System.out.println(result);
-//		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
+		List<String> allList = FileUtils2.readFile("/Users/joyance/Documents/y.txt");
+		List<String> revokedList = FileUtils2.readFile("/Users/joyance/Documents/x.txt");
+		System.out.println("allList size:"+allList.size()+",revokedList size="+revokedList.size());
+		allList.removeAll(revokedList);
+		System.out.println(allList.size());
+//		for(String needRevokeOrder:allList){
+//			System.out.println(needRevokeOrder);
+//		}
 	}
+	
+	
 }

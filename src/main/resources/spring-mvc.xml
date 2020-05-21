@@ -152,7 +152,7 @@
         </property>
     </bean>
     
-     <!-- aop配置 -->
+    <!-- aop配置 -->
     <context:annotation-config />
 	<aop:aspectj-autoproxy />
 </beans>

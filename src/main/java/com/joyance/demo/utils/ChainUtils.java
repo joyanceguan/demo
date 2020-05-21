@@ -25,4 +25,12 @@ public class ChainUtils {
         System.out.println(tag);
         return tag;
     }
+	
+	public static void main(String[] args) {
+		boolean a = true;
+		boolean b = false;
+		boolean c = false;
+		boolean d = false;
+		System.out.println(false || true && true && false);
+	}
 }

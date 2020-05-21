@@ -31,6 +31,7 @@ public class TestRedis {
 		
 		String value = (String) redisTemplate.opsForValue().get("joy demo");
 		System.out.println("get from redis value = "+value);
+		
 	}
 	
 	@Test
