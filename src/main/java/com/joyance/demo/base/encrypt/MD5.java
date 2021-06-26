@@ -37,9 +37,10 @@ public class MD5 {
     }
 	
 	public static void main(String[] args) throws Exception {
-		String str = "Java摘要算法测试";
+		String str = "231084199012160522";
+		long start = System.currentTimeMillis();
 		String text = MD5.md5(str);
-		System.out.println("摘要:"+text+",长度:"+text.length());
+		System.out.println("摘要:"+text+",长度:"+text.length()+",耗时:"+(System.currentTimeMillis() - start));
 		text = MD5.md5_2(str);
 		System.out.println("摘要:"+text+",长度:"+text.length());
 	}

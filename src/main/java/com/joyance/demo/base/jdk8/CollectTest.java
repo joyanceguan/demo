@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.alibaba.fastjson.JSON;
 
@@ -13,8 +14,8 @@ public class CollectTest {
 	
 	public static void main(String[] args) {
 		 //
-		 List<Student> list = Arrays.asList(new Student("1-1","joy",80),new Student("1-2","joyance",90),
-				new Student("1-3","joyguan",95),new Student("1-1","joyanceguan",85));
+		 List<Student> list = Arrays.asList(new Student("1-1","joy",80),new Student("1-3","joyance",90),
+				new Student("1-2","joyguan",95),new Student("1-1","joyanceguan",85));
 		 Map<String,Long> result= list.stream().collect(Collectors.groupingBy(Student::getClasz,Collectors.counting()));
 	     System.out.println(result);
 	     
@@ -37,6 +38,13 @@ public class CollectTest {
 	     Map<String, List<Student>> result5 =  list.stream().collect(Collectors.groupingBy(Student::getClasz,Collectors.toList()));
 	     System.out.println(JSON.toJSONString(result5));
 	     
+	     String v = Arrays.asList("1","2","3").stream().collect(Collectors.joining(","));
+	     System.out.println(v);
+	     
+	     
+	     Optional<Student> userOp= list.stream().max(Comparator.comparingInt(Student ::getScore));
+	     Student maxS = userOp.get();
+	     System.out.println("全学年最高分,"+JSON.toJSONString(maxS));
 	     
 	}
 	

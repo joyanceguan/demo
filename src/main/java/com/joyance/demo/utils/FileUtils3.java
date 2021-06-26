@@ -6,13 +6,17 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-public class FileUtils2 {
+import com.google.common.base.Joiner;
+
+public class FileUtils3 {
 	
-	static String f = "{\"row_key\":\"#{itemId}\",\"value\":\"0\"},";
-	
+	static String f = "update illegal_asset_item set status = 2 where illegal_id = #{illegalId};\n";
+  
+			
 	/**
      * 如果目录不存在则创建目录
      * @param dir
@@ -29,29 +33,14 @@ public class FileUtils2 {
     }
 
 
-//	public static String readFile(String path) throws Exception{
-//		String result = "";
-//		FileInputStream fileInputStream = new FileInputStream(path);
-//		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-//		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//		String line = null;
-//		while((line = bufferedReader.readLine())!=null){
-//			result+="\""+line+"\",\n";
-//		}
-//		bufferedReader.close();
-//		inputStreamReader.close();
-//		fileInputStream.close();
-//		return result;
-//	}
-	
-    public static String readFile(String path) throws Exception{
+	public static String readFile(String path) throws Exception{
 		String result = "";
 		FileInputStream fileInputStream = new FileInputStream(path);
 		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			String v = f.replaceAll("\\#\\{itemId\\}", line);
+			String v = f.replaceAll("\\#\\{illegalId\\}", line);
 			result+=v;
 		}
 		bufferedReader.close();
@@ -69,11 +58,8 @@ public class FileUtils2 {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String result = FileUtils2.readFile("/Users/joyance/Documents/y.txt");
-		FileUtils.writeFile(result, "/Users/joyance/Documents/x.txt");
-		System.out.println(result);
-//		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
+		String str = FileUtils3.readFile("/Users/joyance/Documents/y.txt");
+//		System.out.println(str);
+		FileUtils.writeFile(str, "/Users/joyance/Documents/x.txt");
 	}
-	
-	
 }

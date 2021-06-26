@@ -8,7 +8,6 @@ public class BinaryTree {
 	public List<Integer> qianxuNumList = new ArrayList<Integer>();
 	
 	 /** 
-     * @author yaobo
      * 二叉树的先序中序后序排序 
      */  
     public BinaryNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错  

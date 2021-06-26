@@ -79,7 +79,7 @@ public class AES {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String message = "Java加密算法测试";
+		String message = "关悦";
 		//128位密钥 = 16 bytes key
 		String key = "1234567890abcdef";
 		String encrypt = AES.encrypt(key, message);
@@ -90,6 +90,7 @@ public class AES {
 		
 		encrypt = AES.encrypt2(key, message);
 		System.out.println("AES/CBC/PKCS5Padding方式，128位密钥加密生成："+encrypt+",长度："+encrypt.length());
+		
 	}
 	
 }

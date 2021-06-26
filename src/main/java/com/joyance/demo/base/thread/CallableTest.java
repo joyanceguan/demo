@@ -21,7 +21,7 @@ public class CallableTest {
 			Callable<Integer> callable = new Callable<Integer>(){
 				@Override
 				public Integer call() throws Exception {
-					Thread.sleep(5*1000);
+					Thread.sleep(3*1000);
 					return j;
 			}};
 			list.add(callable);
@@ -36,7 +36,7 @@ public class CallableTest {
         futureList = executorService.invokeAll(list);
 		for(Future<Integer> future : futureList){
 			try {
-				Integer i = future.get();
+				Integer i = future.get(5, TimeUnit.SECONDS);
 				System.out.println(i+"__"+(System.currentTimeMillis()-startTime));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

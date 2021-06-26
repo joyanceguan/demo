@@ -19,10 +19,8 @@ public class OptionalTest {
 		set2.add("c");
 		set2.add("d");
 		Map<String,Set<String>> map = new HashMap<String,Set<String>>();
-		map.put("1", set1);
-		map.put("2", set2);
-		
-		map = null;
+//		map.put("1", set1);
+//		map.put("2", set2);
 		
 		Optional.ofNullable(map).ifPresent(o -> o.forEach((k, v) -> {
             if (CollectionUtils.isEmpty(v)) {
@@ -39,6 +37,10 @@ public class OptionalTest {
 			System.out.println("========"+v);
 		}));
 		
+		
+		Optional.ofNullable(map).ifPresent(o ->{
+			System.out.println("xxxxx");
+		});
 		
 		Assert.notEmpty(map,"不能为空");
 		System.out.println("Assert notEmpty");

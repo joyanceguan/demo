@@ -27,9 +27,31 @@ public class Fibonacci {
         }
         return x2;
     }
+    
+    public static int fibonacci3(int index){
+    	ArrayQueue q = new ArrayQueue();
+    	if(index < 3){
+    		return 1;
+    	}
+    	for(int i=1;i<index+1;i++){
+    		if(i < 3){
+    			q.enqueue("1");
+    		}else{
+    			int pre = Integer.parseInt(q.dequeue());
+    			int next = Integer.parseInt(q.dequeue());
+    			q.enqueue(next+"");
+    			q.enqueue((pre+next)+"");
+    		}
+    	}
+    	int v = Integer.parseInt(q.dequeue());
+    	if(!q.isEmpty()){
+    		v = Integer.parseInt(q.dequeue());
+    	}
+        return v;    	
+    }
 	
 	public static void main(String[] args) {
-		int result = fibonacci2(6);
+		int result = fibonacci3(5);
 		System.out.println(result);
 	}
 }

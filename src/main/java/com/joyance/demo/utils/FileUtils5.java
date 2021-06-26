@@ -7,11 +7,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class FileUtils2 {
-	
-	static String f = "{\"row_key\":\"#{itemId}\",\"value\":\"0\"},";
+public class FileUtils5 {
+
+	static String f = "delete from risk_user where user_type = 0 and risk_type ='CHEAT' and user_id = '#{userId}';\n";
+	  
 	
 	/**
      * 如果目录不存在则创建目录
@@ -29,29 +32,14 @@ public class FileUtils2 {
     }
 
 
-//	public static String readFile(String path) throws Exception{
-//		String result = "";
-//		FileInputStream fileInputStream = new FileInputStream(path);
-//		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-//		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//		String line = null;
-//		while((line = bufferedReader.readLine())!=null){
-//			result+="\""+line+"\",\n";
-//		}
-//		bufferedReader.close();
-//		inputStreamReader.close();
-//		fileInputStream.close();
-//		return result;
-//	}
-	
-    public static String readFile(String path) throws Exception{
+	public static String readFile(String path) throws Exception{
 		String result = "";
 		FileInputStream fileInputStream = new FileInputStream(path);
 		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			String v = f.replaceAll("\\#\\{itemId\\}", line);
+			String v = f.replaceAll("\\#\\{userId\\}", line);
 			result+=v;
 		}
 		bufferedReader.close();
@@ -69,11 +57,15 @@ public class FileUtils2 {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String result = FileUtils2.readFile("/Users/joyance/Documents/y.txt");
-		FileUtils.writeFile(result, "/Users/joyance/Documents/x.txt");
-		System.out.println(result);
+		String str = FileUtils5.readFile("/Users/joyance/Documents/y.txt");
+		System.out.println(str);
 //		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
+		
+		List<String> containList = new ArrayList<String>();
+		containList = null;
+//		containList.add("a");
+//		containList.add("abc");
+		String scope = containList.stream().max(Comparator.comparingInt(x -> x.length())).orElseThrow(NoSuchElementException::new);
+		System.out.println(scope);
 	}
-	
-	
 }

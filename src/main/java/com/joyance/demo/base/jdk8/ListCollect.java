@@ -18,5 +18,6 @@ public class ListCollect {
 		list.add(student3);
 		List<Integer> userIdList = list.stream().map(a -> a.getScore()).collect(Collectors.toList());
 		System.out.println(JSON.toJSONString(userIdList));
+		
 	}
 }

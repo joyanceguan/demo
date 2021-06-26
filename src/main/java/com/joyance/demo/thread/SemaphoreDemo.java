@@ -15,24 +15,24 @@ import com.alibaba.fastjson.JSON;
 public class SemaphoreDemo {
 
 	public static void main(String[] args) throws Exception{
-//		final Semaphore semaphore = new Semaphore(3);
-//	    int threads = 4;
-//		ExecutorService executorService = Executors.newFixedThreadPool(threads);
-//		for(int i = 0;i < threads ;i++){
-//			executorService.execute(new Runnable(){
-//				@Override
-//				public void run() {
-//					try {
-//						semaphore.acquire(3);
-//						System.out.println(Thread.currentThread().getName()+"占据了窗口");
-//						Thread.sleep(3000);
-//						System.out.println(Thread.currentThread().getName()+"释放了窗口");
-//						semaphore.release(3);
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//			}});
-//		}
+		final Semaphore semaphore = new Semaphore(3);
+	    int threads = 4;
+		ExecutorService executorService = Executors.newFixedThreadPool(threads);
+		for(int i = 0;i < threads ;i++){
+			executorService.execute(new Runnable(){
+				@Override
+				public void run() {
+					try {
+						semaphore.acquire(3);
+						System.out.println(Thread.currentThread().getName()+"占据了窗口");
+						Thread.sleep(3000);
+						System.out.println(Thread.currentThread().getName()+"释放了窗口");
+						semaphore.release(3);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+			}});
+		}
 		
 		List<Integer> list = new ArrayList<Integer>(0);
 		list.add(2);
