@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 public class FileUtils5 {
 
-	static String f = "delete from risk_user where user_type = 0 and risk_type ='CHEAT' and user_id = '#{userId}';\n";
+	static String f = "INSERT INTO biz_roster_0000 (roster_warehouse_code,roster_id,valid_time,remark,type,create_time,create_by,update_time,update_by) VALUES ('AutoTestWhite','#{userId}','2021-12-31 23:59:59','xxx',2,now(),'guanyue',now(),'guanyue');\n";
 	  
 	
 	/**
@@ -58,14 +58,14 @@ public class FileUtils5 {
 	
 	public static void main(String[] args) throws Exception {
 		String str = FileUtils5.readFile("/Users/joyance/Documents/y.txt");
-		System.out.println(str);
+		FileUtils.writeFile(str, "/Users/joyance/Documents/x.txt");
 //		FileUtils.writeFile("abc","/Users/user/Documents/workspaces/my_workspace/demo/src/main/resources/test1.json");
 		
-		List<String> containList = new ArrayList<String>();
-		containList = null;
+//		List<String> containList = new ArrayList<String>();
+//		containList = null;
 //		containList.add("a");
 //		containList.add("abc");
-		String scope = containList.stream().max(Comparator.comparingInt(x -> x.length())).orElseThrow(NoSuchElementException::new);
-		System.out.println(scope);
+//		String scope = containList.stream().max(Comparator.comparingInt(x -> x.length())).orElseThrow(NoSuchElementException::new);
+//		System.out.println(scope);
 	}
 }

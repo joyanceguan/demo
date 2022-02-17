@@ -47,7 +47,7 @@ public class FileUtils {
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			result += "\""+line+"\",\n";
+			result += "\""+line.trim()+"\",\n";
 		}
 		bufferedReader.close();
 		inputStreamReader.close();

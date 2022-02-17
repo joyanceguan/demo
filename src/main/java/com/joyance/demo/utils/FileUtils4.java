@@ -46,19 +46,21 @@ public class FileUtils4 {
 //		return result;
 //	}
 	
-	public static Set<String> readFile(String path) throws Exception{
-		Set<String> set = new HashSet<String>();
+	public static List<String> readFile(String path) throws Exception{
+		List<String> list = new ArrayList<String>();
 		FileInputStream fileInputStream = new FileInputStream(path);
 		InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
 		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		String line = null;
 		while((line = bufferedReader.readLine())!=null){
-			set.add(line.trim());
+//			if(!list.contains(line)){
+				list.add(line.trim());
+//			}
 		}
 		bufferedReader.close();
 		inputStreamReader.close();
 		fileInputStream.close();
-		return set;
+		return list;
 	}
 	
 	public static void writeFile(String content,String path) throws IOException{
@@ -71,13 +73,15 @@ public class FileUtils4 {
 	
 	public static void main(String[] args) throws Exception {
 //		Set<String> set2 = FileUtils4.readFile("/Users/joyance/Documents/z.txt");
-		Set<String> set1 = FileUtils4.readFile("/Users/joyance/Documents/y.txt");
+//		Set<String> set1 = FileUtils4.readFile("/Users/joyance/Documents/y.txt");
 //		Set<String> set = Sets.difference(set2, set1);
 //		System.out.println(set1);
 		
-		for(String str:set1){
-			System.out.println(str);
-		}
+		List<String> list = FileUtils4.readFile("/Users/joyance/Documents/y.txt");
+//		for(String str:list){
+//			System.out.println(str);
+//		}
+		System.out.println(list);
 		
 	}
 }

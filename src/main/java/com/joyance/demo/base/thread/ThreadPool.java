@@ -8,14 +8,17 @@ import java.util.concurrent.TimeUnit;
 
 public class ThreadPool {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		ExecutorService executorService = new ThreadPoolExecutor(2, 4, 0L, 
                 TimeUnit.MILLISECONDS, 
                 new LinkedBlockingQueue<>(2), 
                 Executors.defaultThreadFactory(), 
                 new ThreadPoolExecutor.AbortPolicy(){});
 		
-		for(int i=0;i<6;i++){
+		for(int i=0;i<3;i++){
+			if(i== 2){
+				Thread.sleep(6000);
+			}
 			executorService.execute(new Runnable() {
 				@Override
 				public void run() {

@@ -2,6 +2,8 @@ package com.joyance.demo.base.thread;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -14,9 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
-	
-	 private static final Logger LOGGER = LoggerFactory.getLogger(ThreadPoolExecutorWrapper2.class);
+
+public class ThreadPoolExecutorWrapper3 extends ThreadPoolExecutor{
+
+	 private static final Logger LOGGER = LoggerFactory.getLogger(ThreadPoolExecutorWrapper.class);
 	    // 保存任务开始执行的时间,当任务结束时,用任务结束时间减去开始时间计算任务执行时间 
 	    private ConcurrentHashMap<String,Date> startTimes;
 	    // 线程池名称,一般以业务名称命名,方便区分 
@@ -37,10 +40,10 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	     * @param poolName
 	     * 线程池名称 
 	     */
-	    public ThreadPoolExecutorWrapper2(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, MonitorLinkedBlockingQueue workQueue,
+	    public ThreadPoolExecutorWrapper3(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue workQueue,
 	                         String poolName) {
 	        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, new EventThreadFactory(poolName));
-	        this.startTimes = workQueue.getStartTime();
+	        this.startTimes = new ConcurrentHashMap<>();
 	        this.poolName = poolName;
 	    }
 	    /**
@@ -48,7 +51,7 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	     */
 	    @Override
 	    public void shutdown() {
-	        // 统计已执行任务、正在执行任务、未执行任务数量 
+	// 统计已执行任务、正在执行任务、未执行任务数量 
 	        LOGGER.info(String.format(this.poolName + " Going to shutdown. Executed tasks: %d, Running tasks: %d, Pending tasks: %d",
 	                this.getCompletedTaskCount(), this.getActiveCount(), this.getQueue().size()));
 	        super.shutdown();
@@ -58,7 +61,7 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	     */
 	    @Override
 	    public List shutdownNow() {
-	        // 统计已执行任务、正在执行任务、未执行任务数量 
+	// 统计已执行任务、正在执行任务、未执行任务数量 
 	        LOGGER.info(
 	                String.format(this.poolName + " Going to immediately shutdown. Executed tasks: %d, Running tasks: %d, Pending tasks: %d",
 	                        this.getCompletedTaskCount(), this.getActiveCount(), this.getQueue().size()));
@@ -69,9 +72,7 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	     */
 	    @Override
 	    protected void beforeExecute(Thread t, Runnable r) {
-	    	if(!startTimes.containsKey(String.valueOf(r.hashCode()))){
-	    		startTimes.put(String.valueOf(r.hashCode()), new Date());
-	    	}
+	        startTimes.put(String.valueOf(r.hashCode()), new Date());
 	    }
 	    /**
 	     * 任务执行之后,计算任务结束时间 
@@ -98,10 +99,18 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	     * @return ExecutorService对象
 	     */
 	    public static ExecutorService newFixedThreadPool(int nThreads, String poolName) {
-	        return new ThreadPoolExecutorWrapper2(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new MonitorLinkedBlockingQueue(), poolName);
+	        return new ThreadPoolExecutorWrapper(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue (), poolName);
 	    }
-	    
-	    
+	    /**
+	     * 创建缓存型线程池,代码源于Executors.newCachedThreadPool方法,这里增加了poolName 
+	     *
+	     * @param poolName
+	     * 线程池名称 
+	     * @return ExecutorService对象
+	     */
+	    public static ExecutorService newCachedThreadPool(String poolName) {
+	        return new ThreadPoolExecutorWrapper(2, 2, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue (1,true), poolName);
+	    }
 	    /**
 	     * 生成线程池所用的线程,只是改写了线程池默认的线程工厂,传入线程池名称,便于问题追踪 
 	     */
@@ -130,82 +139,19 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 	                t.setPriority(Thread.NORM_PRIORITY);
 	            return t;
 	        }
-	        
-	        
-	       
 
  }
 	    
-	    public static class MonitorLinkedBlockingQueue extends LinkedBlockingQueue{
-        	
-        	private ConcurrentHashMap<String,Date> startTimes = new ConcurrentHashMap<String,Date>();
-
-			@Override
-			public void put(Object e) throws InterruptedException {
-				// TODO Auto-generated method stub
-				if(e!=null && startTimes!=null){
-					startTimes.put(String.valueOf(e.hashCode()), new Date());
-				}
-				super.put(e);
-			}
-
-			@Override
-			public boolean offer(Object e, long timeout, TimeUnit unit) throws InterruptedException {
-				if(e!=null && startTimes!=null){
-					startTimes.put(String.valueOf(e.hashCode()), new Date());
-				}
-				return super.offer(e, timeout, unit);
-			}
-
-			@Override
-			public boolean offer(Object e) {
-				if(e!=null && startTimes!=null){
-					startTimes.put(String.valueOf(e.hashCode()), new Date());
-				}
-				return super.offer(e);
-			}
-        	
-			public ConcurrentHashMap<String,Date> getStartTime(){
-				return startTimes;
-			}
-        }
-	    
 	public static void main(String[] args) throws InterruptedException {
-		ExecutorService executorService = ThreadPoolExecutorWrapper2.newFixedThreadPool(2, "thread_monitor");
-		executorService.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(10);
-					System.out.println(Thread.currentThread().getName() + " finished");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		executorService.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(10);
-					System.out.println(Thread.currentThread().getName() + " finished");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		Thread.sleep(15);
-		
-		for(int i=0;i<3;i++){
+		ExecutorService executorService = ThreadPoolExecutorWrapper3.newCachedThreadPool("thread_monitor");
+		for(int i=0;i<4;i++){
+			Thread.sleep(2000);
+			
 			executorService.execute(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						Thread.sleep(3000);
+						Thread.sleep(1500);
 						System.out.println(Thread.currentThread().getName() + " finished");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -214,6 +160,7 @@ public class ThreadPoolExecutorWrapper2 extends ThreadPoolExecutor{
 				}
 			});
 		}
+		
+		
 	}
-   
 }
